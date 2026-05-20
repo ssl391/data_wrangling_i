@@ -106,4 +106,15 @@ litters_readr
 ```
 
 
-but read_csv -- use this instead!!! from tidyberse
+but read_csv -- use this instead!!! from tidyverse
+
+
+##Exporting data
+
+Export the mlb sub-table.
+
+```{r}
+mlb_df
+write_csv(mlb_df, "./data/mlb_subtable.csv")
+```
+
