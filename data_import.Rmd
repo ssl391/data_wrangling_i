@@ -93,3 +93,17 @@ read_dta
 
 ## read in SPSS
 read_sav
+
+## Comparison with base R
+
+what about `read.csv` -- this is built into R
+```{r}
+litters_base = read.csv("data/FAS_litters.csv")
+litters_readr = read.csv("data/FAS_litters.csv")
+
+litters_base
+litters_readr
+```
+
+
+but read_csv -- use this instead!!! from tidyberse
