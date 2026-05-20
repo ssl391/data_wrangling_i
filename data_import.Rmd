@@ -5,8 +5,12 @@ output: github_document
 
 Option command i opens the code chunk
 
+Put all the packages 
+haven reads SAS
 ```{r setup}
 library(tidyverse)
+library(readxl)
+library(haven)
 ```
 
 ## Read in some data
@@ -55,14 +59,37 @@ Can type in ?read_csv to look at the help function
 litters_df = read_csv("./data/FAS_litters.csv", skip = 10, col_names = FALSE)
 ```
 
-
-```{r all of these are missing na = c}
-litters_df = read_csv("./data/FAS_litters.csv", na = c("", "NA", ".", 999)
+all of these are missing na 
+```{r}
+litters_df = read_csv("./data/FAS_litters.csv", na = c("", "NA", ".", 999))
 ```
 
 ```{r}
-litters_df = read_csv("./data/FAS_litters.csv"
+litters_df = read_csv("./data/FAS_litters.csv")
 ```
 
 checkout `read_csv()` for more information
 
+## Other formats EXCEL
+
+Read in an excel file
+
+```{r}
+mlb_df = read_excel("./data/mlb11.xlsx")
+mlb_df
+```
+View shows the whole data file 
+?read_excel- specific
+
+
+# Read in SAS
+
+```{r}
+pulse_df = read_sas("./data/public_pulse_data.sas7bdat")
+```
+
+# read in STATA.dta
+read_dta
+
+## read in SPSS
+read_sav
