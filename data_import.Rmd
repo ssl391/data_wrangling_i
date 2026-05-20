@@ -47,3 +47,22 @@ Put View(litters_df) shows the full dataset, but don't put this in RMD only in t
 Character variable- mix of letters and numbers
 double- particular kind of number, missing variables coded as NA
 
+Can type in ?read_csv to look at the help function 
+
+## Options to read_csv
+
+```{r}
+litters_df = read_csv("./data/FAS_litters.csv", skip = 10, col_names = FALSE)
+```
+
+
+```{r all of these are missing na = c}
+litters_df = read_csv("./data/FAS_litters.csv", na = c("", "NA", ".", 999)
+```
+
+```{r}
+litters_df = read_csv("./data/FAS_litters.csv"
+```
+
+checkout `read_csv()` for more information
+
