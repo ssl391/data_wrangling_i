@@ -12,13 +12,38 @@ library(tidyverse)
 ## Read in some data
 
 Read in the litters dataset.
+Janitor cleans up the names - converts to lowercase, replaces spaces and puncts w _, removes special characters, makes names syntactically 
 
 ```{r}
 litters_df = read_csv("./data/FAS_litters.csv")
 litters_df = janitor::clean_names(litters_df)
-
 ```
 
 
+
 ## Take a look at the data
+Printing in the console
+```{r}
+litters_df
+```
+
+Gives the first 6 rows
+```{r}
+head(litters_df)
+```
+
+Last few rows
+```{r}
+tail(litters_df)
+```
+
+Skim is the only function in the skimr package, not downloading all of skimr
+```{r}
+skimr::skim(litters_df)
+```
+
+Put View(litters_df) shows the full dataset, but don't put this in RMD only in the console!
+
+Character variable- mix of letters and numbers
+double- particular kind of number, missing variables coded as NA
 
