@@ -57,4 +57,35 @@ move to litter_number first and keep everything - same as above
 relocate(litters_df, litter_number)
 ```
 
-START at 27 min 
+
+## Filter
+Remove rows
+Select- operates on columns 
+Need to give it a condition 
+
+```{r}
+filter(litters_df, gd0_weight < 22)
+```
+
+```{r}
+filter(litters_df, gd_of_birth == 20)
+```
+
+! not can do !=
+```{r}
+filter(litters_df, !gd_of_birth == 20)
+```
+
+```{r}
+filter(litters_df, gd0_weight >= 22, gd_of_birth ==20)
+```
+
+```{r}
+filter(litters_df, group == "Mod8")
+```
+
+either mod 8 or con7
+```{r}
+filter(litters_df, group %in% c("Con7", "Mod8"))
+```
+
