@@ -1,5 +1,5 @@
 ---
-title: "Data Manipulation"
+title: "Tidy Data"
 output: github_document
 ---
 
@@ -7,140 +7,44 @@ output: github_document
 library(tidyverse)
 ```
 
-## Load the FAS litters data
+## pivot_longer
+
+load the pulse data
 
 ```{r}
-litters_df = read_csv("./data/FAS_litters.csv")
-litters_df = janitor::clean_names(litters_df)
+pulse_data = 
+  haven::read_sas("./data/public_pulse_data.sas7bdat") %>% 
+  janitor::clean_names()
 ```
 
-## `select`
-
-Choose some columns and not others
+Wide format to long format
 
 ```{r}
-select(litters_df, group, litter_number, gd0_weight)
-```
-
-columns colon
-```{r}
-select(litters_df, group, gd0_weight:gd_of_birth)
-```
-
-Get rid of
-```{r}
-select(litters_df, -litter_number)
-```
-
-remaining columns
-```{r}
-select(litters_df, GROUP = group, LITTER_NUMBER = litter_number)
-```
-
-```{r}
-rename(litters_df, GROUP = group, LITTER_NUMBER = litter_number)
-```
-
-Select helpers
-
-```{r}
-select(litters_df, starts_with("gd"))
-```
-
-move litter_number first
-```{r}
-select(litters_df, litter_number, everything())
-```
-
-move to litter_number first and keep everything - same as above 
-```{r}
-relocate(litters_df, litter_number)
-```
-
-
-## Filter
-Remove rows
-Select- operates on columns 
-Need to give it a condition 
-
-```{r}
-filter(litters_df, gd0_weight < 22)
-```
-
-```{r}
-filter(litters_df, gd_of_birth == 20)
-```
-
-! not can do !=
-```{r}
-filter(litters_df, !gd_of_birth == 20)
-```
-
-```{r}
-filter(litters_df, gd0_weight >= 22, gd_of_birth ==20)
-```
-
-```{r}
-filter(litters_df, group == "Mod8")
-```
-
-either mod 8 or con7
-```{r}
-filter(litters_df, group %in% c("Con7", "Mod8"))
-```
-
-##mutate
-modifies variables
-
-
-
-```{r}
-mutate(litters_df, wt_gain = gd18_weight - gd0_weight)
-```
-
-```{r}
-mutate(litters_df, wt_gain = gd18_weight - gd0_weight)
-```
-
-
-```{r}
-mutate(
-  litters_df,
-  wt_gain = gd18_weight - gd0_weight,
-  group = str_to_lower(group)
-)
-```
-
-
-
-## arrange
-```{r}
-
-arrange(litters_df, pups_born_alive)
-arrange(litters_df, pups_born_alive, gd0_weight)
-```
-
-## >%>
-
-```{r}
-litters_data_row = read.csv("./data/FAS_litters.csv")
-litters_clean_name = janitor::clean_names(litters_data_row)
-litters_data_selected = select(litters_clean_name, -pups_survive)
-litters_mutated = mutate(litters_data_selected, wt_gain = gd18_weight - gd0_weight)
-litters_without_missing = drop_na(litters_mutated, gd0_weight)
-```
-
-Use the pipe operator instead
-shift command m is the pipe %>% 
-same as above but easier to read with the pipes
-```{r}
-litters_df = 
-  read_csv("/.data/FAS_litters.csv") %>% 
+pulse_data = 
+  haven::read_sas("./data/public_pulse_data.sas7bdat") %>% 
   janitor::clean_names() %>% 
-  select(-pups_survive) %>% 
-  mutate(wt_gain = gd18_weight - gd0_weight) %>% 
-  drop_na(gd0_weight)
-  )
+  pivot_longer(
+    bdi_score_bl:bdi_score_12m,
+    names_to = "visit",
+    names_prefix = "bdi_score_",
+    values_to = "bdi"
+  ) 
+```
+names prefix cuts out anything prior to
+
+rewrite commbine, combine, adn extend to add a mutate step 
+```{r}
+pulse_data_tidy = 
+  pulse_data %>% 
+  pivot_longer(
+    bdi_score_bl:bdi_score_12m,
+    names_to = "visit",
+    names_prefix = "bdi_score_",
+    values_to = "bdi"
+  ) %>% 
+  relocate(id, visit) %>% 
+  mutate(visit = recode(visit, "bl" = "00m"))
 ```
 
+```
 
